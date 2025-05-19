@@ -1,109 +1,75 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Redirecionando...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aguarde...</title>
   <style>
     body {
-      background-color: #000000; /* Fundo preto */
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      background-color: #e5ddd5;
+      background-image: url('https://web.whatsapp.com/img/bg-chat-tile_a6d526.png');
+      background-repeat: repeat;
+      background-size: auto;
     }
-    .loading-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+
     h1 {
-      font-size: 18px;
-      color: #FFFFFF; /* Texto branco */
+      color: #075e54;
+      font-size: 1.5rem;
       margin-bottom: 20px;
     }
-    .loading {
-      animation: rotate 1s linear infinite;
-      border: 5px solid #4F4F4F; /* Cinza escuro */
-      border-top: 5px solid #00FF00; /* Parte superior em verde */
+
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #25d366;
       border-radius: 50%;
-      height: 50px;
       width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
     }
-    @keyframes rotate {
-      0% {
-        transform: rotate(0);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
-  <script>
-    // Função para fazer a requisição ao webhook do n8n
-    async function obterNumeros() {
-      try {
-        console.log('Iniciando requisição ao webhook...');
-        const response = await fetch('https://webhook.cfdojon.work/webhook/danimartins01', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        console.log('Resposta recebida do webhook:', response);
-        if (!response.ok) {
-          throw new Error('Erro na requisição ao webhook');
-        }
-        const data = await response.json();
-        console.log('Dados recebidos do webhook:', data);
-        return data.numbers;
-      } catch (error) {
-        console.error('Erro ao obter os números do webhook:', error);
-        throw error;
-      }
-    }
 
-    // Função para redirecionar para um grupo de WhatsApp aleatório
-    async function redirecionar() {
-      try {
-        const numeros = await obterNumeros();
-        const numeroAleatorio = numeros[Math.floor(Math.random() * numeros.length)];
-        const url = `https://api.whatsapp.com/send?phone=${numeroAleatorio}&text=Oi,%20quero%20a%20sua%20receita!`;
-        console.log('Redirecionando para:', url);
-        window.location.href = url;
-      } catch (error) {
-        console.error('Erro ao obter os números ou redirecionar:', error);
-        // URL de fallback em caso de erro
-        window.location.href = 'https://api.whatsapp.com/send?phone=5524992629516&text=Oi,%20tudo%20bem%20ai%20?';
-      }
-    }
-
-   </script>
   <!-- Pixel do Facebook -->
   <script>
     !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod ?
+    n.callMethod.apply(n,arguments) : n.queue.push(arguments)};
     if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
     n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1635200633791695');
-    fbq('track', 'Pageview');
+    
+    fbq('init', 'SEU_ID_DO_PIXEL_AQUI'); // ← Substitua pelo seu ID do Pixel
+    fbq('track', 'PageView');
   </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"/>
+  </noscript>
 
+  <!-- Redirecionamento após 3 segundos -->
+  <script>
+    setTimeout(function() {
+      window.location.href = "https://api.whatsapp.com/send?phone=5524981353255&text=Oi,%20tudo%20bem%20ai%20?";
+    }, 3000);
+  </script>
 </head>
-<body onload="redirecionar(); enviarPixel();">
-  <div class="loading-container">
-    <h1>Aguarde alguns segundos...</h1>
-    <div class="loading"></div>
-  </div>
+<body>
+  <h1>Aguarde alguns segundos...</h1>
+  <div class="loader"></div>
 </body>
 </html>
